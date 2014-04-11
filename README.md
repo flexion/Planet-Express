@@ -1,4 +1,4 @@
-# Planet Express (Rackspace) Navigation
+# Planet Express (Rackspace) Delivery
 
 *Good news everyone!*
 
