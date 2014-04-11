@@ -8,3 +8,5 @@ Easily generate:
 
   - JSON Lists of IP addresses
 
+*Bad news everyone. Only the second generation API is supported.*
+
