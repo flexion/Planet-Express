@@ -4,8 +4,7 @@
 
 Navigate your Rackspace account from the command line, or from Python code.
 
-Easily generate (among other things):
+Easily generate:
 
-  - Lists of machines and their attributes
-  - Lists of users
+  - JSON Lists of IP addresses
 

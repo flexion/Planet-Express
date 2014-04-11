@@ -30,9 +30,11 @@ class NavigatorTest(unittest.TestCase, Navigator):
     def tearDown(self):
         pass
 
-    def test_has_server_list(self):
-        print json.dumps(self.navigator.servers['v2'], indent=4, separators=(',', ': '))
+    def test_has_ng_server_list(self):
+        self.assertIsInstance(self.navigator.ng_servers, list)
 
+    def test_has_fg_server_list(self):
+        self.assertIsInstance(self.navigator.fg_servers, list)
 
 if __name__ == '__main__':
     unittest.main()
