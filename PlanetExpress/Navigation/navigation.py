@@ -84,7 +84,7 @@ class Navigator():
             'text': r.text,
         }
 
-    def get_private_network_addresses():
+    def get_private_network_addresses(self):
 
         self.get_all_network_addresses()
 
@@ -116,4 +116,4 @@ if __name__ == '__main__':
                      api_key=settings.ACCOUNTS['rax-ord-ng']['API_KEY'])
     nav.get_servers(version=2, region='DFW')
 
-    print self.dump_json(nav.get_all_network_addresses())
+    print nav.dump_json(nav.get_all_network_addresses())
