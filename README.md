@@ -10,3 +10,8 @@ Easily generate:
 
 *Bad news everyone. Only the second generation API is supported.*
 
+## Setup
+
+`clone` this repo
+`cd` to root directory
+`./setup.sh` to install dependencies
