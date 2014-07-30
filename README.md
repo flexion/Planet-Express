@@ -13,5 +13,7 @@ Easily generate:
 ## Setup
 
 `clone` this repo
+
 `cd` to root directory
+
 `./setup.sh` to install dependencies
