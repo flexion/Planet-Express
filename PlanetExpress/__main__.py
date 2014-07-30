@@ -7,6 +7,27 @@ from Navigation import navigation
 
 if __name__ == '__main__':
 
+    USAGE = '''
+   - Description -
+
+This app provides some scaffolding to work with the Rackspace cloud in Python.
+
+   - Usage -
+
+Options are supplied via natural language syntax. Here's what's currently supported...
+
+get
+    server <server id>
+    servers
+    image <image id>
+    images
+
+add
+    image
+        member <tenant id> <image id>
+
+    '''
+
     #
     # Initialization
     #
@@ -16,7 +37,11 @@ if __name__ == '__main__':
     def next_arg():
         global ARG
         ARG += 1
-        return sys.argv[ARG]
+        try:
+            return sys.argv[ARG]
+        except:
+            print USAGE
+            exit(1)
 
     action = next_arg()
     object = next_arg()

@@ -17,3 +17,9 @@ Easily generate:
 `cd` to root directory
 
 `./setup.sh` to install dependencies
+
+## Running
+
+`./env/bin/activate` your virtualenv
+
+`python ./PlanetExpress`
