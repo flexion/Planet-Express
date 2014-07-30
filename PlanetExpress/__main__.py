@@ -40,7 +40,7 @@ add
         try:
             return sys.argv[ARG]
         except:
-            print 'ERROR! Required argument not supplied, got: "' + sys.argv.join(' ') + '"'
+            print 'ERROR! Required argument not supplied, got: "' + ''.join(sys.argv[1:]) + '"...'
             print USAGE
             exit(1)
 
