@@ -6,17 +6,25 @@ import json
 
 class Navigator():
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        self.region = kwargs.get('region')
         self.token = None
         self.servers = {}
         self.serviceCatalog = None
+
         self.fg_servers = None
         self.ng_servers = None
 
+        self.images = None
+
 
     @staticmethod
-    def dump_json(dic):
-        return json.dumps(dic, indent=4, separators=(',', ': '))
+    def dump_json(var):
+        return json.dumps(var, indent=4, separators=(',', ': '), ensure_ascii=False)
+
+
+    def get_request(self, url):
+        return requests.get(url, headers={'X-Auth-Token': self.token['id']})
 
 
     def log_in(self, username, api_key):
@@ -57,9 +65,9 @@ class Navigator():
 
     def get_servers(self, **kwargs):
 
-        if kwargs['version'] == 2:
+        if kwargs.get('version', 2) == 2:
             url = "https://%(region)s.servers.api.rackspacecloud.com/v2/%(account_id)s/servers/detail" % {
-                'region': kwargs['region'].lower(),
+                'region': self.region.lower(),
                 'account_id': self.token['tenant']['id'],
             }
         elif kwargs['version'] == 1:
@@ -72,9 +80,9 @@ class Navigator():
                 'text': 'version %d not supported.' % kwargs['version']
             }
 
-        r = requests.get(url, headers={'X-Auth-Token': self.token['id']})
+        r = self.get_request(url)
 
-        if kwargs['version'] == 2:
+        if kwargs.get('version', 2) == 2:
             self.ng_servers = json.loads(r.text)['servers']
         elif kwargs['version'] == 1:
             self.fg_servers = json.loads(r.text)['servers']
@@ -83,6 +91,62 @@ class Navigator():
             'status_code': r.status_code,
             'text': r.text,
         }
+
+
+    def get_images(self, **kwargs):
+
+        if kwargs.get('version', 2) == 2:
+            url = "https://%(region)s.images.api.rackspacecloud.com/v2/%(account_id)s/images" % {
+                'region': self.region.lower(),
+                'account_id': self.token['tenant']['id'],
+            }
+        else:
+            return {
+                'status_code': 0,
+                'text': 'version %d not supported.' % kwargs['version']
+            }
+
+        r = self.get_request(url)
+
+        if kwargs.get('version', 2) == 2:
+            self.images = json.loads(r.text)['images']
+
+        return {
+            'status_code': r.status_code,
+            'text': r.text,
+        }
+
+
+    def get_image_by_id(self, id, **kwargs):
+
+        for image in self.images:
+            if image['id'] == id:
+                return image
+
+        return None
+
+
+    def get_image_members(self, image_id, **kwargs):
+
+        if kwargs.get('version', 2) == 2:
+            url = "https://%(region)s.images.api.rackspacecloud.com/v2/%(account_id)s/images/%(image_id)s/members" % {
+                'region': self.region.lower(),
+                'account_id': self.token['tenant']['id'],
+                'image_id': image_id,
+            }
+        else:
+            return {
+                'status_code': 0,
+                'text': 'version %d not supported.' % kwargs['version']
+            }
+
+        r = self.get_request(url)
+
+        return {
+            'status_code': r.status_code,
+            'text': r.text,
+        }
+
 
     def get_private_network_addresses(self):
 
@@ -103,17 +167,26 @@ class Navigator():
         return server['addresses']
 
 
+    def add_image_member(self, **kwargs):
 
-if __name__ == '__main__':
+        if kwargs.get('version', 2) == 2:
+            url = "https://%(region)s.images.api.rackspacecloud.com/v2/%(account_id)s/images/%(image_id)s/members" % {
+                'region': self.region.lower(),
+                'account_id': self.token['tenant']['id'],
+                'image_id': kwargs['image_id'],
+            }
+            payload = {
+                'member': kwargs['tenant_id']
+            }
+        else:
+            return {
+                'status_code': 0,
+                'text': 'version %d not supported.' % kwargs['version']
+            }
 
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '../'))
+        r = requests.post(url, data=json.dumps(payload), headers={'X-Auth-Token': self.token['id']})
 
-    import settings.settings as settings
-
-    nav = Navigator()
-    nav.log_in(username=settings.ACCOUNTS['rax-ord-ng']['USERNAME'],
-                     api_key=settings.ACCOUNTS['rax-ord-ng']['API_KEY'])
-    nav.get_servers(version=2, region='DFW')
-
-    print nav.dump_json(nav.get_all_network_addresses())
+        return {
+            'status_code': r.status_code,
+            'text': r.text,
+        }
