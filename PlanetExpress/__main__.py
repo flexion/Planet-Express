@@ -52,7 +52,7 @@ add
 
     import settings.settings as settings
 
-    nav = navigation.Navigator(region='DFW')
+    nav = navigation.Navigator(region=settings.ACCOUNTS['rax-ord-ng']['REGION'])
     nav.log_in(username=settings.ACCOUNTS['rax-ord-ng']['USERNAME'],
                      api_key=settings.ACCOUNTS['rax-ord-ng']['API_KEY'])
 
