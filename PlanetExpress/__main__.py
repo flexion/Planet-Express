@@ -23,8 +23,10 @@ get
     images
 
 add
+    network <server id> <network id>
     image
         member <tenant id> <image id>
+
 
     '''
 
@@ -82,3 +84,6 @@ add
                                            tenant_id=tenant)['status_code']
                 members = nav.get_image_members(image)['text']
                 print nav.dump_json(json.loads(members))
+        if object == 'network':
+            network_id = next_arg()
+            print nav.dump_json(nav.get_image_by_id(network_id))
