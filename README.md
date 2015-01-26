@@ -1,5 +1,7 @@
 # Planet Express (Rackspace) Delivery
 
+![professor](https://raw.github.com/flexionus/Planet-Express/master/assets/farnsworth.png)
+
 *Good news everyone!*
 
 Navigate your Rackspace account from the command line, or from Python code.
@@ -10,6 +12,7 @@ Easily generate JSON Lists of...
  - servers
  - images
  - image members
+ - loadbalancers
 
 And do stuff!...
 

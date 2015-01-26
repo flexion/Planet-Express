@@ -21,6 +21,7 @@ get
     servers
     image <image id>
     images
+    loadbalancers
 
 add
     network <server id> <network id>
@@ -75,6 +76,9 @@ add
             nav.get_images()
             image_id = next_arg()
             print nav.dump_json(nav.get_image_by_id(image_id))
+        if object == 'loadbalancers':
+            nav.get_load_balancers()
+            print nav.dump_json(nav.loadbalancers)
     elif action == 'add':
         if object == 'image':
             if next_arg() == 'member':

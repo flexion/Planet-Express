@@ -18,6 +18,8 @@ class Navigator(object):
         self.ng_servers = None
         self.ng_servers_url = None
 
+        self.loadbalancers = None
+
         self.images = None
 
 
@@ -150,6 +152,29 @@ class Navigator(object):
             'text': r.text,
         }
 
+    def get_load_balancers(self, **kwargs):
+
+        if kwargs.get('version', 1) == 1:
+            url = "https://%(region)s.loadbalancers.api.rackspacecloud.com/v1.0/%(account_id)s/loadbalancers" % {
+                'region': self.region.lower(),
+                'account_id': self.token['tenant']['id'],
+            }
+        else:
+            return {
+                'status_code': 0,
+                'text': 'version %d not supported.' % kwargs['version']
+            }
+
+        r = self.get_request(url)
+
+        if kwargs['version'] == 1:
+            self.loadbalancers = json.loads(r.text)
+
+        return {
+            'status_code': r.status_code,
+            'text': r.text,
+        }
+
     def get_images(self, **kwargs):
 
         if kwargs.get('version', 2) == 2:
@@ -241,3 +266,4 @@ class Navigator(object):
             'status_code': r.status_code,
             'text': r.text,
         }
+
