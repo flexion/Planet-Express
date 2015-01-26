@@ -1,6 +1,6 @@
 # Planet Express (Rackspace) Delivery
 
-![professor](https://raw.github.com/flexion/Planet-Express/master/assets/professor.png)
+![professor](https://raw.githubusercontent.com/flexion/Planet-Express/master/assets/professor.jpg)
 
 *Good news everyone!*
 
